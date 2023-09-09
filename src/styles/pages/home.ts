@@ -42,6 +42,11 @@ export const Product = styled("div", {
     opacity: 0,
     transition: "all 0.2s ease-in-out",
 
+    p:{
+      display: 'flex',
+      flexDirection: 'column'
+    },
+
     strong: {
       fontSize: "$lg",
       color: "$gray100",
@@ -52,6 +57,20 @@ export const Product = styled("div", {
       fontWeight: "bold",
       color: "$green300",
     },
+
+    div:{
+      width: '3.5rem',
+      height: '3.5rem',
+      background: "$green300",
+      color:'$white',
+      padding: '0.5rem',
+      borderRadius: 6,
+      
+      display: 'flex',
+      alignItems: "center",
+      justifyContent: 'center'
+
+    }
   },
 
   "&:hover": {
