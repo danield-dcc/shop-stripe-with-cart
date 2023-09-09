@@ -1,14 +1,11 @@
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
 import { globalStyles } from "@/styles/globals";
-import { Container, Header } from "@/styles/pages/app";
-import logoImg from "@/assets/Logo.svg";
-import Image from "next/image";
-
+import { ProductProvider } from "@/contexts/ProductContext";
 
 const roboto = Roboto({
   style: ["normal", "italic"],
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   weight: ["400", "700"],
 });
 
@@ -16,11 +13,10 @@ globalStyles();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Container className={roboto.className}>
-      <Header>
-          <Image src={logoImg} alt="" />
-        </Header>
+    <ProductProvider>
+      <div className={roboto.className}>
         <Component {...pageProps} />
-    </Container>
+      </div>
+    </ProductProvider>
   );
 }
