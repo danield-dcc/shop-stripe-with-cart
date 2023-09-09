@@ -10,6 +10,8 @@ import "keen-slider/keen-slider.min.css";
 import { HomeContainer, Product } from "@/styles/pages/home";
 import { priceFormatter } from "@/utils/formatter";
 import Link from "next/link";
+import { Handbag } from "phosphor-react";
+import ProductsTemplate from "@/template/ProductsTemplate";
 
 interface HomeProps {
   products: {
@@ -42,22 +44,34 @@ export default function Home({ products }: HomeProps) {
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
+      <ProductsTemplate>
+        <HomeContainer ref={sliderRef} className="keen-slider">
+          {products.map((product) => {
+            return (
+              <Link href={`/product/${product.id}`} key={product.id}>
+                <Product className="keen-slider__slide">
+                  <Image
+                    src={product.imageUrl}
+                    width={520}
+                    height={480}
+                    alt=""
+                  />
+                  <footer>
+                    <p>
+                      <strong>{product.name}</strong>
+                      <span>{product.price}</span>
+                    </p>
 
-      <HomeContainer ref={sliderRef} className="keen-slider">
-        {products.map((product) => {
-          return (
-            <Link href={`/product/${product.id}`} key={product.id}>
-              <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} width={520} height={480} alt="" />
-                <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
-                </footer>
-              </Product>
-            </Link>
-          );
-        })}
-      </HomeContainer>
+                    <div>
+                      <Handbag size={32} />
+                    </div>
+                  </footer>
+                </Product>
+              </Link>
+            );
+          })}
+        </HomeContainer>
+      </ProductsTemplate>
     </>
   );
 }
