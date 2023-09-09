@@ -6,7 +6,7 @@ export const ProductContainer = styled('main', {
     alignItems: 'stretch',
     gap: '4rem',
     maxWidth: 1180,
-    margin:'0 auto' 
+    margin:'0 auto'
 })
 
 export const ImageContainer = styled('div', {
@@ -66,7 +66,7 @@ export const ProductDetails = styled("div", {
       cursor: 'wait'
     },
 
-    "&:not(:disable):hover": {
+    "&:not(:disabled):hover": {
       backgroundColor: "$green300",
     },
   },
