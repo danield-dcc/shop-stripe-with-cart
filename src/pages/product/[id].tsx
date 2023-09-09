@@ -15,6 +15,8 @@ import { priceFormatter } from "@/utils/formatter";
 import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
+import { useProductContext } from "@/contexts/ProductContext";
+import ProductsTemplate from "@/template/ProductsTemplate";
 
 interface ProductProps {
   product: {
@@ -31,24 +33,13 @@ export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState<boolean>(false);
   const { isFallback } = useRouter();
+  const { handleSelectProduct, products } = useProductContext();
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      });
-
-      const { checkoutUrl } = response.data;
-
-      window.location.href = checkoutUrl;
-    } catch (err) {
-      //Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
-
-      setIsCreatingCheckoutSession(false);
-      alert("Falha ao redirecionar ao checkout");
-    }
+  function handleSelectBuyProduct() {
+    handleSelectProduct(product);
   }
+
+
 
   if (isFallback) {
     return <p>Loading...</p>;
@@ -60,23 +51,25 @@ export default function Product({ product }: ProductProps) {
         <title>{product.name} | Ignite Shop</title>
       </Head>
 
-      <ProductContainer>
-        <ImageContainer>
-          <Image src={product.imageUrl} width={520} height={480} alt="" />
-        </ImageContainer>
-        <ProductDetails>
-          <h1>{product.name}</h1>
-          <span>{product.price}</span>
-          <p>{product.description}</p>
+      <ProductsTemplate>
+        <ProductContainer>
+          <ImageContainer>
+            <Image src={product.imageUrl} width={520} height={480} alt="" />
+          </ImageContainer>
+          <ProductDetails>
+            <h1>{product.name}</h1>
+            <span>{product.price}</span>
+            <p>{product.description}</p>
 
-          <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyProduct}
-          >
-            Comprar agora
-          </button>
-        </ProductDetails>
-      </ProductContainer>
+            <button
+              disabled={isCreatingCheckoutSession}
+              onClick={handleSelectBuyProduct}
+            >
+              Colocar na sacola
+            </button>
+          </ProductDetails>
+        </ProductContainer>
+      </ProductsTemplate>
     </>
   );
 }
